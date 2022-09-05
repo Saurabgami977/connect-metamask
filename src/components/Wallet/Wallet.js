@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 
-import { useMetaMask } from "metamask-react";
+//
+import networks from "./networks";
 import Loader from "../Loader";
+//
+import { useMetaMask } from "metamask-react";
 import { ethers } from "ethers";
-
-const data = {
-	address: "0x210285B0c985C7cAeb145AAcF852dd8FA5B3ba34",
-	balance: "$ 20",
-	chain: "Ethereum",
-};
 
 const Wallet = () => {
 	const [tooltip, setTooltip] = useState(false);
-	const [accountBalance, setAccountBalance] = useState(false);
-	const { status, connect, account, chainId, ethereum } = useMetaMask();
+	const [accountBalance, setAccountBalance] = useState();
+	const { status, connect, account, switchChain, chainId } = useMetaMask();
 
+	// Connect on button click
 	const connectHandler = async () => {
 		connect();
+		// Do something Here
 	};
 
+	console.log(chainId);
+
+	// function to get balance of the current account
 	const getBalance = async (account) => {
 		try {
 			const balance = await window.ethereum.request({
@@ -27,35 +29,40 @@ const Wallet = () => {
 			});
 			setAccountBalance(ethers.utils.formatEther(balance));
 		} catch (err) {
-			console.error(err);
-			alert("There was a problem connecting to MetaMask");
+			alert(err);
 		}
 	};
 
 	useEffect(() => {
+		// After account is rendered run getBalance function
 		account && getBalance(account);
 	}, [account]);
 
 	// Copy address onClick of button
 	const copyAddress = () => {
-		navigator.clipboard.writeText(data.address);
+		navigator.clipboard.writeText(account);
 		setTooltip(true);
 		setTimeout(() => {
 			setTooltip(false);
 		}, 2000);
 	};
 
-	console.log();
-
 	return (
-		<div className="shadow-2xl bg-white text-black p-6 w-96 h-96 border rounded-lg border-gray-200  flex justify-between items-center flex-col">
+		<div className="shadow-2xl bg-white text-black p-6 border rounded-lg border-gray-200  flex justify-between items-center flex-col">
+			{/* When Initializing */}
 			{status === "initializing" && (
 				<>
 					<Loader />
 					Initializing...
 				</>
 			)}
-			{status === "unavailable" && <div>MetaMask not available :(</div>}
+
+			{/* When Metamask is not available */}
+			{status === "unavailable" && (
+				<div>Please install Metamask to connect</div>
+			)}
+
+			{/* If Wallet is not connected */}
 			{status === "notConnected" && (
 				<button
 					onClick={() => connectHandler()}
@@ -64,13 +71,16 @@ const Wallet = () => {
 					Connect Wallet
 				</button>
 			)}
+
+			{/* When user clicks Connect and account is in the process of connection */}
 			{status === "connecting" && (
 				<>
 					<Loader />
 					Connecting...
 				</>
 			)}
-			{status === ""}
+
+			{/* When account is connected */}
 			{status === "connected" && (
 				<>
 					<h1 className="bold text-gray-400 text-5xl border-b border-gray-700">
@@ -130,21 +140,39 @@ const Wallet = () => {
 						</h1>
 					</div>
 
-					{/* ========Action Buttons======== */}
-					<div className="flex justify-between mt-3 w-full">
+					{/* ========Status======== */}
+					<div className="mt-3">
 						<div
 							id="chain"
 							className="flex  py-2 px-4 bg-gray-200 rounded-full items-center"
 						>
-							<h1 className="bold text-sm">{data.chain}</h1>
+							{/* Network chain name */}
+							<h1 className="bold text-sm">
+								{chainId === "0x1"
+									? networks.ethereum.chainName
+									: chainId === "0x89"
+									? networks.polygon.chainName
+									: "Network not identified"}
+							</h1>
+
+							{/* Online status */}
 							<div className="bg-green-500 w-3 rounded-full h-3 ml-1"></div>
 						</div>
-
-						{/* ========Button to Disconnect======== */}
-						<button className=" gradient text-white text-xl px-4 py-2 rounded-full hover:transform transition hover:scale-105 duration-300 ease-in-out">
-							Disconnect
-						</button>
 					</div>
+
+					{/* Switch Networks */}
+					<button
+						onClick={() =>
+							switchChain(
+								chainId === "0x1"
+									? networks.polygon.chainId
+									: networks.ethereum.chainId,
+							)
+						}
+						className="mt-3  text-black border border-gray-500 text-xl px-4 py-2 rounded-full hover:transform transition hover:scale-105 duration-300 ease-in-out"
+					>
+						Switch to {`${chainId === "0x1" ? "Polygon" : "Ethereum"}`}
+					</button>
 				</>
 			)}
 		</div>

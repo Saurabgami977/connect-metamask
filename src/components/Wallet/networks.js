@@ -10,30 +10,16 @@ const networks = {
 		rpcUrls: ["https://polygon-rpc.com/"],
 		blockExplorerUrls: ["https://polygonscan.com/"],
 	},
-	bsc: {
-		chainId: `0x${Number(56).toString(16)}`,
-		chainName: "Binance Smart Chain Mainnet",
+	ethereum: {
+		chainId: `0x${Number(1).toString(16)}`,
+		chainName: "Ethereum Mainnet",
 		nativeCurrency: {
-			name: "Binance Chain Native Token",
-			symbol: "BNB",
+			name: "Ether",
+			symbol: "ETH",
 			decimals: 18,
 		},
-		rpcUrls: [
-			"https://bsc-dataseed1.binance.org/",
-			"https://bsc-dataseed2.binance.org/",
-			"https://bsc-dataseed3.binance.org/",
-			"https://bsc-dataseed4.binance.org/",
-			"https://bsc-dataseed1.defibit.io/",
-			"https://bsc-dataseed1.ninicoin.io/",
-			"https://bsc-dataseed2.defibit.io/",
-			"https://bsc-dataseed2.ninicoin.io/",
-			"https://bsc-dataseed3.defibit.io/",
-			"https://bsc-dataseed3.ninicoin.io/",
-			"https://bsc-dataseed4.defibit.io/",
-			"https://bsc-dataseed4.ninicoin.io/",
-			"https://bsc-ws-node.nariox.org/",
-		],
-		blockExplorerUrls: ["https://bscscan.com/"],
+		rpcUrls: ["https://api.mycryptoapi.com/eth", "https://cloudflare-eth.com"],
+		blockExplorerUrls: ["https://etherscan.io"],
 	},
 };
 export default networks;

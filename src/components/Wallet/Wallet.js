@@ -18,8 +18,6 @@ const Wallet = () => {
 		// Do something Here
 	};
 
-	console.log(chainId);
-
 	// function to get balance of the current account
 	const getBalance = async (account) => {
 		try {
@@ -137,6 +135,7 @@ const Wallet = () => {
 						<h1 className="bold  w-max m-auto ">Balance</h1>
 						<h1 className="flex items-center cursor-pointer text-6xl text-gray-500">
 							{accountBalance}
+							{chainId === "0x1" ? "ETH" : "Matic"}
 						</h1>
 					</div>
 

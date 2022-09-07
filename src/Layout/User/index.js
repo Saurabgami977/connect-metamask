@@ -4,7 +4,9 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 //
-import Navbar from "../Navbar";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import ScrollToTop from "../ScrollToTop";
 
 // Gives Base styles for each layout
 const BaseLayout = ({ children }) => {
@@ -25,6 +27,7 @@ const BaseLayout = ({ children }) => {
 const User = () => {
 	return (
 		<BaseLayout>
+			<ScrollToTop />
 			{/* Header */}
 			<Navbar />
 
@@ -32,6 +35,7 @@ const User = () => {
 			<Outlet />
 
 			{/* Footer */}
+			<Footer />
 		</BaseLayout>
 	);
 };

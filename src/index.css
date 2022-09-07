@@ -7,3 +7,10 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+
+@layer base {
+	:root {
+		--color-text-base: #ffffff;
+		--color-text-inverted: #000000;
+	}
+}

@@ -50,7 +50,7 @@ const Navbar = () => {
 						{navigation.map((item) => (
 							<li className="mr-3" key={item.name}>
 								<Link
-									className="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+									className="inline-block text-skin-inverted no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
 									to={item.to}
 								>
 									{item.name}
